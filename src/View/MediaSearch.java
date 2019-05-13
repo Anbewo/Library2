@@ -7,6 +7,8 @@ package View;
 
 import static javafx.application.Platform.exit;
 import javax.swing.JFrame;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -40,7 +42,7 @@ public class MediaSearch extends javax.swing.JFrame {
         copy = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        mediaSearchTable = new javax.swing.JTable();
         home = new javax.swing.JButton();
         copy1 = new javax.swing.JButton();
         copy2 = new javax.swing.JButton();
@@ -77,7 +79,7 @@ public class MediaSearch extends javax.swing.JFrame {
 
         jButton5.setText("Avsluta");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        mediaSearchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -88,7 +90,7 @@ public class MediaSearch extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(mediaSearchTable);
 
         home.setText("Min sida");
         home.addActionListener(new java.awt.event.ActionListener() {
@@ -196,6 +198,7 @@ public class MediaSearch extends javax.swing.JFrame {
         Home.home();
     }//GEN-LAST:event_homeActionPerformed
 
+
     private void copy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copy1ActionPerformed
 
         int auth = 1;
@@ -219,6 +222,14 @@ public class MediaSearch extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_copy2ActionPerformed
 
+    ArrayList<Object> media = new ArrayList();
+    private Object[][] data = new Object[10][2]; 
+
+    
+    public void setMessageList(ArrayList media){
+        this.media = media;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -254,7 +265,25 @@ public class MediaSearch extends javax.swing.JFrame {
             public void run() {
                 new MediaSearch().setVisible(true);
             }
-        });
+        });       
+        
+    }
+    
+    
+      public void loadTableData(){
+        int rows = this.media.size();
+        //håller data i en 2d array 
+        //initierar storleken med rader & kolumner
+        this.data = new Object[rows][2];
+        //läs in data från ArrayList till data arrayen
+        int row=0; 
+        for (Object media : this.media){
+            System.out.print(media);
+            row++;
+        }
+        
+        //mediaSearchTable.setModel(media, "title");
+
     }
     
       public static void search() {
@@ -304,7 +333,7 @@ public class MediaSearch extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable mediaSearchTable;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables

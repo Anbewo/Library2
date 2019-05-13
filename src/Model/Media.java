@@ -10,15 +10,19 @@ package Model;
 public class Media {
     
     int mediaID;
-    String titel;
+    String title;
+    String authorDirector;
     int numOfCopies;
     int numOfLoanDays;
     
     private MediaCopy mediaCopy;
     
-    public void addMedia(){
-        
+  
+
+    public String getMedia() {
+        return title;
     }
-    
+
+   
     
 }
