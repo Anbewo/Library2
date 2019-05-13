@@ -5,6 +5,10 @@
  */
 package View;
 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
 /**
  *
  * @author annic
@@ -15,7 +19,12 @@ public class MediaUpdate extends javax.swing.JFrame {
      * Creates new form MediaUpdate
      */
     public MediaUpdate() {
-        initComponents();
+        initComponents(); 
+        
+        JournalLayer.setVisible(false); 
+        MovieLayer.setVisible(false); 
+        BookLayer.setVisible(false); 
+    
     }
 
     /**
@@ -27,6 +36,7 @@ public class MediaUpdate extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -36,9 +46,31 @@ public class MediaUpdate extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         BookLayer = new javax.swing.JLayeredPane();
-        jLabel6 = new javax.swing.JLabel();
-        RefLayer = new javax.swing.JLayeredPane();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        ISBN = new javax.swing.JTextField();
+        CategoryWord = new javax.swing.JTextField();
+        Author = new javax.swing.JTextField();
+        MovieLayer = new javax.swing.JLayeredPane();
         jLabel7 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        genre = new javax.swing.JTextField();
+        director = new javax.swing.JTextField();
+        ageLimit = new javax.swing.JTextField();
+        productionCountry = new javax.swing.JTextField();
+        actor = new javax.swing.JTextField();
+        JournalLayer = new javax.swing.JLayeredPane();
+        jLabel8 = new javax.swing.JLabel();
+        JAuthor = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        back = new javax.swing.JButton();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -64,78 +96,228 @@ public class MediaUpdate extends javax.swing.JFrame {
 
         jLabel4.setText("Titel");
 
-        BookLayer.setEnabled(false);
+        jLabel9.setText("ISBN");
 
-        jLabel6.setText("Bok");
+        jLabel11.setText("CategoryWord");
 
-        jLabel7.setText("Referenslitteratur");
+        jLabel12.setText("Author");
 
-        RefLayer.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        ISBN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ISBNActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout RefLayerLayout = new javax.swing.GroupLayout(RefLayer);
-        RefLayer.setLayout(RefLayerLayout);
-        RefLayerLayout.setHorizontalGroup(
-            RefLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RefLayerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(535, Short.MAX_VALUE))
-        );
-        RefLayerLayout.setVerticalGroup(
-            RefLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RefLayerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(202, Short.MAX_VALUE))
-        );
+        CategoryWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CategoryWordActionPerformed(evt);
+            }
+        });
 
-        BookLayer.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        BookLayer.setLayer(RefLayer, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        Author.setName(""); // NOI18N
+        Author.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AuthorActionPerformed(evt);
+            }
+        });
+
+        BookLayer.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        BookLayer.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        BookLayer.setLayer(jLabel11, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        BookLayer.setLayer(jLabel12, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        BookLayer.setLayer(ISBN, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        BookLayer.setLayer(CategoryWord, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        BookLayer.setLayer(Author, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout BookLayerLayout = new javax.swing.GroupLayout(BookLayer);
         BookLayer.setLayout(BookLayerLayout);
         BookLayerLayout.setHorizontalGroup(
             BookLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BookLayerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BookLayerLayout.createSequentialGroup()
-                .addComponent(RefLayer)
-                .addContainerGap())
+                .addGap(37, 37, 37)
+                .addGroup(BookLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ISBN)
+                    .addGroup(BookLayerLayout.createSequentialGroup()
+                        .addGroup(BookLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(BookLayerLayout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(156, 156, 156)
+                                .addComponent(jLabel10))
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12))
+                        .addContainerGap(131, Short.MAX_VALUE))
+                    .addComponent(CategoryWord)
+                    .addComponent(Author)))
         );
         BookLayerLayout.setVerticalGroup(
             BookLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BookLayerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
+                .addGap(19, 19, 19)
+                .addGroup(BookLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10))
+                .addGap(5, 5, 5)
+                .addComponent(ISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RefLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addComponent(CategoryWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Author, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
+
+        jLabel7.setText("Genre");
+
+        jLabel13.setText("Regissör");
+
+        jLabel14.setText("Åldersgräns");
+
+        jLabel15.setText("Produktionsland");
+
+        jLabel16.setText("Skådespelare");
+
+        ageLimit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ageLimitActionPerformed(evt);
+            }
+        });
+
+        MovieLayer.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(jLabel13, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(jLabel14, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(jLabel15, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(jLabel16, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(genre, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(director, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(ageLimit, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(productionCountry, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MovieLayer.setLayer(actor, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout MovieLayerLayout = new javax.swing.GroupLayout(MovieLayer);
+        MovieLayer.setLayout(MovieLayerLayout);
+        MovieLayerLayout.setHorizontalGroup(
+            MovieLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MovieLayerLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(MovieLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel15)
+                    .addComponent(productionCountry, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(jLabel14)
+                    .addComponent(ageLimit, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(jLabel13)
+                    .addComponent(director, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addGroup(MovieLayerLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel7))
+                    .addComponent(jLabel16)
+                    .addComponent(actor, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(genre))
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
+        MovieLayerLayout.setVerticalGroup(
+            MovieLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MovieLayerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addGap(5, 5, 5)
+                .addComponent(genre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel13)
+                .addGap(10, 10, 10)
+                .addComponent(director, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ageLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel15)
+                .addGap(5, 5, 5)
+                .addComponent(productionCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(actor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jLabel8.setText("Author");
+
+        JAuthor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JAuthorActionPerformed(evt);
+            }
+        });
+
+        JournalLayer.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        JournalLayer.setLayer(JAuthor, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout JournalLayerLayout = new javax.swing.GroupLayout(JournalLayer);
+        JournalLayer.setLayout(JournalLayerLayout);
+        JournalLayerLayout.setHorizontalGroup(
+            JournalLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel8)
+            .addComponent(JAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        JournalLayerLayout.setVerticalGroup(
+            JournalLayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JournalLayerLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        jButton1.setText("Spara");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        back.setText("Tillbaka");
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(259, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(251, 251, 251))
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(mediaTypeVar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BookLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(37, 37, 37)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(70, 70, 70)
+                                        .addComponent(jButton1)
+                                        .addGap(25, 25, 25)
+                                        .addComponent(back))))
+                            .addComponent(JournalLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mediaTypeVar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(BookLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MovieLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,39 +328,104 @@ public class MediaUpdate extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mediaTypeVar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addGap(12, 12, 12)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addGap(8, 8, 8)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(288, 288, 288)
-                        .addComponent(jLabel5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(BookLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)
+                    .addComponent(back))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(BookLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(MovieLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JournalLayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(548, 548, 548)
+                .addComponent(jLabel5)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void mediaTypeVarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediaTypeVarActionPerformed
         // TODO add your handling code here:
-//       BookLayer.setVisible(false); 
-//       RefLayer.setVisible(false);
-//        
 //        if (mediaTypeVar.equals(1))
 //       BookLayer.setVisible(true); 
 //        if (mediaTypeVar.equals(2))
 //            RefLayer.setVisible(true);
-        System.out.println(mediaTypeVar);
+        //System.out.println(mediaTypeVar.getSelectedItem());
+                    
+
+
+                String s = (String) mediaTypeVar.getSelectedItem();//get the selected item
+                
+                switch (s) {//check for a match
+                    case "Bok":
+                        JournalLayer.setVisible(false); 
+                        MovieLayer.setVisible(false); 
+                        BookLayer.setVisible(true); 
+                        break;
+                    case "Kurslitteratur":
+                        JournalLayer.setVisible(false); 
+                        MovieLayer.setVisible(false);
+                        BookLayer.setVisible(true); 
+                        break;
+                    case "Referenslitteratur":       
+                        JournalLayer.setVisible(false); 
+                        MovieLayer.setVisible(false);
+                        BookLayer.setVisible(true); 
+                        break;
+                    case "Film":         
+                        BookLayer.setVisible(false); 
+                        JournalLayer.setVisible(false);
+                        MovieLayer.setVisible(true); 
+                        break;
+                    case "Tidsskrift":         
+                        MovieLayer.setVisible(false);
+                        BookLayer.setVisible(false); 
+                        JournalLayer.setVisible(true); 
+                        break;   
+                }
+            
+        
     }//GEN-LAST:event_mediaTypeVarActionPerformed
 
+    private void ISBNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ISBNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ISBNActionPerformed
+
+    private void CategoryWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoryWordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CategoryWordActionPerformed
+
+    private void JAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JAuthorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JAuthorActionPerformed
+
+    private void ageLimitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ageLimitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ageLimitActionPerformed
+
+    private void AuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AuthorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AuthorActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        dispose();
+        MediaSearch.search();
+    }//GEN-LAST:event_backActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -215,19 +462,45 @@ public class MediaUpdate extends javax.swing.JFrame {
         
         
     }
+    
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Author;
     private javax.swing.JLayeredPane BookLayer;
-    private javax.swing.JLayeredPane RefLayer;
+    private javax.swing.JTextField CategoryWord;
+    private javax.swing.JTextField ISBN;
+    private javax.swing.JTextField JAuthor;
+    private javax.swing.JLayeredPane JournalLayer;
+    private javax.swing.JLayeredPane MovieLayer;
+    private javax.swing.JTextField actor;
+    private javax.swing.JTextField ageLimit;
+    private javax.swing.JButton back;
+    private javax.swing.JTextField director;
+    private javax.swing.JTextField genre;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JComboBox<String> mediaTypeVar;
+    private javax.swing.JTextField productionCountry;
     // End of variables declaration//GEN-END:variables
 }

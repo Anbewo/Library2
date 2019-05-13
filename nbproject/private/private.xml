@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/annic/OneDrive/mina%20dokument/NetBeansProjects/Bibliotekssystemet/src/Model/Loan.java</file>
-            <file>file:/C:/Users/annic/OneDrive/mina%20dokument/NetBeansProjects/Bibliotekssystemet/src/View/MediaUpdate.java</file>
-            <file>file:/C:/Users/annic/OneDrive/mina%20dokument/NetBeansProjects/Bibliotekssystemet/src/Model/Movie.java</file>
-            <file>file:/C:/Users/annic/OneDrive/mina%20dokument/NetBeansProjects/Bibliotekssystemet/src/Model/MediaCopy.java</file>
-            <file>file:/C:/Users/annic/OneDrive/mina%20dokument/NetBeansProjects/Bibliotekssystemet/src/View/MediaSearch.java</file>
-            <file>file:/C:/Users/annic/OneDrive/mina%20dokument/NetBeansProjects/Bibliotekssystemet/src/Model/Book.java</file>
-            <file>file:/C:/Users/annic/OneDrive/mina%20dokument/NetBeansProjects/Bibliotekssystemet/src/Model/Media.java</file>
-            <file>file:/C:/Users/annic/OneDrive/mina%20dokument/NetBeansProjects/Bibliotekssystemet/src/Model/Journal.java</file>
+            <file>file:/C:/Users/Admin/Desktop/test/Library2/src/Model/Media.java</file>
+            <file>file:/C:/Users/Admin/Desktop/test/Library2/src/View/MediaSearch.java</file>
+            <file>file:/C:/Users/Admin/Desktop/test/Library2/src/Controller/DBconnector.java</file>
+            <file>file:/C:/Users/Admin/Desktop/test/Library2/src/Controller/MediaSearchController.java</file>
         </group>
     </open-files>
 </project-private>
