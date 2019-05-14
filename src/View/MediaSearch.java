@@ -9,6 +9,11 @@ import static javafx.application.Platform.exit;
 import javax.swing.JFrame;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import Controller.MediaSearchController;
+import java.sql.ResultSetMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -21,6 +26,35 @@ public class MediaSearch extends javax.swing.JFrame {
      */
     public MediaSearch() {
         initComponents();
+        
+        ResultSet results = MediaSearchController.listMedia("'%The%'");
+        System.out.println(results);
+          
+        try {
+                
+                
+        while(results.next()) {
+              for(int i= 1; i <= 10; i++) {
+                  System.out.printf("%-8s\t", results.getObject(i));
+              }
+              System.out.println();
+        }
+        
+        }
+        
+       catch (SQLException sqlException) {
+           sqlException.printStackTrace();
+       }
+        
+        
+        int numRows = 5;
+        int numCols = 2;
+        
+        for (int i=0; i < numRows; i++) {
+            for (int j=0; j < numCols; j++) {
+                mediaSearchTable.getModel().setValueAt(i+j, i, j);
+            }
+        }
     }
 
     /**
@@ -32,6 +66,10 @@ public class MediaSearch extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
@@ -41,11 +79,37 @@ public class MediaSearch extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         copy = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        mediaSearchTable = new javax.swing.JTable();
         home = new javax.swing.JButton();
         copy1 = new javax.swing.JButton();
         copy2 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        mediaSearchTable = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -79,19 +143,6 @@ public class MediaSearch extends javax.swing.JFrame {
 
         jButton5.setText("Avsluta");
 
-        mediaSearchTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(mediaSearchTable);
-
         home.setText("Min sida");
         home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,6 +164,65 @@ public class MediaSearch extends javax.swing.JFrame {
             }
         });
 
+        mediaSearchTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Title", "Author"
+            }
+        ));
+        jScrollPane4.setViewportView(mediaSearchTable);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,15 +235,14 @@ public class MediaSearch extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButton1))
-                                .addComponent(jScrollPane2))
+                                    .addComponent(jButton1)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(home)
                                 .addGap(18, 18, 18)
@@ -147,8 +256,11 @@ public class MediaSearch extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(copy1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(copy2)))))
-                .addContainerGap(119, Short.MAX_VALUE))
+                                .addComponent(copy2))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,16 +274,16 @@ public class MediaSearch extends javax.swing.JFrame {
                     .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(update)
                     .addComponent(jButton3)
                     .addComponent(copy)
                     .addComponent(copy1)
                     .addComponent(copy2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5)
                     .addComponent(home))
@@ -222,13 +334,6 @@ public class MediaSearch extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_copy2ActionPerformed
 
-    ArrayList<Object> media = new ArrayList();
-    private Object[][] data = new Object[10][2]; 
-
-    
-    public void setMessageList(ArrayList media){
-        this.media = media;
-    }
     
     /**
      * @param args the command line arguments
@@ -267,24 +372,14 @@ public class MediaSearch extends javax.swing.JFrame {
             }
         });       
         
-    }
+         
     
-    
-      public void loadTableData(){
-        int rows = this.media.size();
-        //håller data i en 2d array 
-        //initierar storleken med rader & kolumner
-        this.data = new Object[rows][2];
-        //läs in data från ArrayList till data arrayen
-        int row=0; 
-        for (Object media : this.media){
-            System.out.print(media);
-            row++;
-        }
-        
-        //mediaSearchTable.setModel(media, "title");
 
+        
     }
+    
+    
+      
     
       public static void search() {
         /* Set the Nimbus look and feel */
@@ -332,8 +427,12 @@ public class MediaSearch extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable mediaSearchTable;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    public javax.swing.JTable mediaSearchTable;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables

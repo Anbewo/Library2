@@ -20,10 +20,12 @@ public class MediaSearchController {
     
     private MediaSearch mediasearch = null;
     
-    public static void listMedia() {
+    
+    
+    public static ResultSet listMedia(String searchVar) {
                 
        final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-       final String SELECT_QUERY = "SELECT title, authorDirector FROM Media";
+       final String SELECT_QUERY = "SELECT title, authorDirector FROM Media WHERE title LIKE".concat(searchVar);
    
        try ( 
           Connection connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
@@ -33,45 +35,32 @@ public class MediaSearchController {
           ResultSetMetaData metaData = resultSet.getMetaData();
           int numberOfColumns = metaData.getColumnCount();
           
-          System.out.printf("Media Search:%n%n");
+          /*
+          System.out.printf("Authors Table of Books Database:%n%n");
           
           for(int i = 1; i <= numberOfColumns; i++) {
               System.out.printf("%-8s\t", metaData.getColumnName(i));
           }
           System.out.println();
           
-          ArrayList<Object> media = new ArrayList();
-                    
           while(resultSet.next()) {
               for(int i= 1; i <= numberOfColumns; i++) {
-                  media.add(resultSet.getObject(i));
+                  System.out.printf("%-8s\t", resultSet.getObject(i));
               }
+              System.out.println();
           }
-          
-          this.mediasearch.setMessageList(media);
+          */
 
+          return resultSet;
+         
        }
        catch (SQLException sqlException) {
            sqlException.printStackTrace();
        }
-       
-      
+        return null;
+
         
-        
-        /*
-        mediaSearchTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        */
-       
    }
+    
     
 }
