@@ -7,7 +7,6 @@ package Controller;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import Model.Media;
 import View.MediaSearch;
 
@@ -22,10 +21,11 @@ public class MediaSearchController {
     
     
     
-    public static ResultSet listMedia(String searchVar) {
+    public static ArrayList listMedia(String searchVar) {
                 
        final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
        final String SELECT_QUERY = "SELECT title, authorDirector FROM Media WHERE title LIKE".concat(searchVar);
+       ArrayList<Object> content = new ArrayList<Object>(); // Create an ArrayList object
    
        try ( 
           Connection connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
@@ -42,16 +42,17 @@ public class MediaSearchController {
               System.out.printf("%-8s\t", metaData.getColumnName(i));
           }
           System.out.println();
+           */
           
           while(resultSet.next()) {
               for(int i= 1; i <= numberOfColumns; i++) {
-                  System.out.printf("%-8s\t", resultSet.getObject(i));
+                  content.add(resultSet.getObject(i));
               }
               System.out.println();
           }
-          */
+          
 
-          return resultSet;
+          return content;
          
        }
        catch (SQLException sqlException) {

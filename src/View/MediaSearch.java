@@ -27,32 +27,15 @@ public class MediaSearch extends javax.swing.JFrame {
     public MediaSearch() {
         initComponents();
         
-        ResultSet results = MediaSearchController.listMedia("'%The%'");
+        ArrayList results = MediaSearchController.listMedia("'%The%'");
         System.out.println(results);
-          
-        try {
-                
-                
-        while(results.next()) {
-              for(int i= 1; i <= 10; i++) {
-                  System.out.printf("%-8s\t", results.getObject(i));
-              }
-              System.out.println();
-        }
-        
-        }
-        
-       catch (SQLException sqlException) {
-           sqlException.printStackTrace();
-       }
-        
         
         int numRows = 5;
         int numCols = 2;
         
         for (int i=0; i < numRows; i++) {
             for (int j=0; j < numCols; j++) {
-                mediaSearchTable.getModel().setValueAt(i+j, i, j);
+                mediaSearchTable.getModel().setValueAt(results.get(i), i, j);
             }
         }
     }
