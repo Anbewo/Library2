@@ -26,18 +26,25 @@ public class MediaSearch extends javax.swing.JFrame {
      */
     public MediaSearch() {
         initComponents();
+    }
+    
+    public void searchFill(String searchVar, String choiceVar) {
         
-        ArrayList results = MediaSearchController.listMedia("'%The%'");
-        System.out.println(results);
+        ArrayList results = MediaSearchController.listMedia("'%" + searchVar + "%'", choiceVar);
         
-        int numRows = 5;
-        int numCols = 2;
-        
-        for (int i=0; i < numRows; i++) {
-            for (int j=0; j < numCols; j++) {
-                mediaSearchTable.getModel().setValueAt(results.get(i), i, j);
-            }
+        int size = results.size();
+        int halfsize = size/2; 
+       
+        int j = 0;
+        int x = j;
+               
+        for (x=0; x < halfsize; x++) {
+                mediaSearchTable.getModel().setValueAt(results.get(j), x, 0);
+                j++;
+                mediaSearchTable.getModel().setValueAt(results.get(j), x, 1);
+                j++;
         }
+        
     }
 
     /**
@@ -56,8 +63,8 @@ public class MediaSearch extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        choice = new javax.swing.JComboBox<>();
+        searchButton = new javax.swing.JButton();
         update = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         copy = new javax.swing.JButton();
@@ -103,10 +110,20 @@ public class MediaSearch extends javax.swing.JFrame {
         jLabel2.setText("Sök media");
 
         searchField.setToolTipText("Mata in sökord");
+        searchField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchFieldActionPerformed(evt);
+            }
+        });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        choice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "title", "authorDirector", "ISBN", "Keywords", " " }));
 
-        jButton1.setText("Sök");
+        searchButton.setText("Sök");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         update.setText("Lägg till / Uppdatera");
         update.addActionListener(new java.awt.event.ActionListener() {
@@ -221,11 +238,11 @@ public class MediaSearch extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(choice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButton1)))
+                                    .addComponent(searchButton)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(home)
                                 .addGap(18, 18, 18)
@@ -243,7 +260,7 @@ public class MediaSearch extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(145, 145, 145)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,8 +272,8 @@ public class MediaSearch extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(choice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
@@ -316,6 +333,16 @@ public class MediaSearch extends javax.swing.JFrame {
     private void copy2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copy2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_copy2ActionPerformed
+
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
+        
+    }//GEN-LAST:event_searchFieldActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        String choiceVar = (String)choice.getSelectedItem();
+        String searchVar = searchField.getText();
+        searchFill(searchVar, choiceVar);
+    }//GEN-LAST:event_searchButtonActionPerformed
 
     
     /**
@@ -400,14 +427,13 @@ public class MediaSearch extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> choice;
     private javax.swing.JButton copy;
     private javax.swing.JButton copy1;
     private javax.swing.JButton copy2;
     private javax.swing.JButton home;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -416,6 +442,7 @@ public class MediaSearch extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     public javax.swing.JTable mediaSearchTable;
+    private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables

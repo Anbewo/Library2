@@ -21,10 +21,10 @@ public class MediaSearchController {
     
     
     
-    public static ArrayList listMedia(String searchVar) {
+    public static ArrayList listMedia(String searchVar, String choiceVar) {
                 
        final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-       final String SELECT_QUERY = "SELECT title, authorDirector FROM Media WHERE title LIKE".concat(searchVar);
+       final String SELECT_QUERY = "SELECT title, authorDirector FROM Media WHERE " + choiceVar + " LIKE ".concat(searchVar);
        ArrayList<Object> content = new ArrayList<Object>(); // Create an ArrayList object
    
        try ( 
