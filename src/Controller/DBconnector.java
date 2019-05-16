@@ -18,7 +18,7 @@ public class DBconnector {
    public static void main(String args[]) {
        
        //DBconnector conn = DBconnector();
-       MediaSearchController.listMedia();
+       MediaSearchController.listMedia("'%The%'");
        
        /*
        final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
