@@ -5,15 +5,18 @@
  */
 package View;
 
-import static javafx.application.Platform.exit;
-import javax.swing.JFrame;
 import java.util.ArrayList;
-import java.util.List;
-import javax.swing.table.DefaultTableModel;
 import Controller.MediaSearchController;
-import java.sql.ResultSetMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Iterator;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.DefaultCellEditor;
+import javax.swing.table.DefaultTableModel;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+
 
 /**
  *
@@ -21,11 +24,42 @@ import java.sql.SQLException;
  */
 public class MediaSearch extends javax.swing.JFrame {
 
+    boolean wantToChange = true;
+    //ArrayList<Integer> rowList = new ArrayList<Integer>(); 
+    LinkedHashSet<Integer> rowList = new LinkedHashSet<Integer>(); 
+    //ArrayList<Object> mediaIDList = new ArrayList<Object>(); 
+    
     /**
      * Creates new form mediaAdmin
      */
     public MediaSearch() {
         initComponents();
+        
+        
+        
+        mediaSearchTable.getModel().addTableModelListener(new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent changeMedia) {
+               
+                
+                 if (wantToChange == true)
+                 {
+                   int row = changeMedia.getFirstRow();
+                   //int column = changeMedia.getColumn();
+                   //DefaultTableModel model = (DefaultTableModel)changeMedia.getSource();
+                   //String columnName = model.getColumnName(column);
+                   //Object data =  mediaSearchTable.getModel().getValueAt(row, 0);
+                   //DefaultTableModel model = (DefaultTableModel)mediaSearchTable.getModel();
+                   //Object dataObject = model.getDataVector().elementAt(mediaSearchTable.getSelectedRow());
+               
+                   rowList.add(row);
+                   System.out.println(rowList);
+                 }
+
+            }
+            
+        });
     }
     
     public void searchFill(String searchVar, String choiceVar) {
@@ -33,17 +67,37 @@ public class MediaSearch extends javax.swing.JFrame {
         ArrayList results = MediaSearchController.listMedia("'%" + searchVar + "%'", choiceVar);
         
         int size = results.size();
-        int halfsize = size/2; 
+        int columns = 10;
+        int halfsize = size/columns;
+        
        
         int j = 0;
         int x = j;
                
         for (x=0; x < halfsize; x++) {
-                mediaSearchTable.getModel().setValueAt(results.get(j), x, 0);
+            for (int i=0; i < columns; i++) {
+                mediaSearchTable.getModel().setValueAt(results.get(j), x, i);
                 j++;
-                mediaSearchTable.getModel().setValueAt(results.get(j), x, 1);
-                j++;
+            }
         }
+        
+    }
+    
+     public void emptyTable() {
+        
+        wantToChange = false;
+         
+        final String ERASE = null;
+        int x = 0;
+        int columns = 10;
+               
+        for (x=0; x < 50; x++) {
+            for (int i=0; i < columns; i++) {
+                mediaSearchTable.getModel().setValueAt(ERASE, x, i);
+            }   
+        }
+        
+        rowList.clear();
         
     }
 
@@ -60,6 +114,7 @@ public class MediaSearch extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        mediaCategoryChoice = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
@@ -100,6 +155,8 @@ public class MediaSearch extends javax.swing.JFrame {
             }
         ));
         jScrollPane3.setViewportView(jTable2);
+
+        mediaCategoryChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -166,83 +223,97 @@ public class MediaSearch extends javax.swing.JFrame {
 
         mediaSearchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, "", null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title", "Author"
+                "Media ID", "Media Type", "ISBN", "Title", "Director/Author", "Actors", "Keywords", "Age Limit", "Production Country", "Nr of copies"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(mediaSearchTable);
+        if (mediaSearchTable.getColumnModel().getColumnCount() > 0) {
+            mediaSearchTable.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(mediaCategoryChoice));
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(289, 289, 289)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(289, 289, 289)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(choice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(searchButton)))
+                        .addContainerGap(106, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(choice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(searchButton)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(home)
                                 .addGap(18, 18, 18)
@@ -256,11 +327,12 @@ public class MediaSearch extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(copy1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(copy2))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(106, Short.MAX_VALUE))
+                                .addComponent(copy2)))
+                        .addGap(106, 106, 106))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane4)
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,9 +366,29 @@ public class MediaSearch extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-        // TODO add your handling code here:
-        dispose();
-        MediaUpdate.main();
+         
+        //ArrayList<String> mediaData = new ArrayList<String>(); 
+        Iterator<Integer> iter = rowList.iterator();
+
+        while(iter.hasNext()) {  
+          String mediaID = "";
+          DefaultTableModel model = (DefaultTableModel)mediaSearchTable.getModel();
+          Object dataObject = model.getDataVector().elementAt(iter.next());
+          String tableData = dataObject.toString();
+          String strArray[] = tableData.split(",");
+          String strArray2[] = new String[8]; 
+          mediaID = strArray[0];
+          for(int i=0; i < strArray2.length; i++){
+                strArray2[i] ="'"+strArray[i+1]+"'";
+	  }
+          String mediaString = Arrays.toString(strArray2);
+          mediaString = mediaString.replaceAll("\\s","").replace("[", "").replace("]", "");
+          System.out.println(mediaString);
+          mediaID = mediaID.replace("[", "");
+          MediaSearchController.updateMedia(mediaString, mediaID);
+          
+          //MediaSearchController.updateMedia(strArray2);
+        }
         
     }//GEN-LAST:event_updateActionPerformed
 
@@ -339,9 +431,11 @@ public class MediaSearch extends javax.swing.JFrame {
     }//GEN-LAST:event_searchFieldActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        emptyTable();
         String choiceVar = (String)choice.getSelectedItem();
         String searchVar = searchField.getText();
         searchFill(searchVar, choiceVar);
+        wantToChange = true;
     }//GEN-LAST:event_searchButtonActionPerformed
 
     
@@ -382,12 +476,7 @@ public class MediaSearch extends javax.swing.JFrame {
             }
         });       
         
-         
-    
-
-        
     }
-    
     
       
     
@@ -441,6 +530,7 @@ public class MediaSearch extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JComboBox<String> mediaCategoryChoice;
     public javax.swing.JTable mediaSearchTable;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
