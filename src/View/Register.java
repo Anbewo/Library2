@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.UserController;
+
 /**
  *
  * @author Admin
@@ -34,7 +36,7 @@ public class Register extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        role = new javax.swing.JComboBox<>();
         pnr = new javax.swing.JTextField();
         fname = new javax.swing.JTextField();
         lname = new javax.swing.JTextField();
@@ -62,7 +64,12 @@ public class Register extends javax.swing.JFrame {
 
         jLabel4.setText("Telefon");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Forskare", "Universitetsanställd", "Allmänhet" }));
+        role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Forskare", "Universitetsanställd", "Allmänhet" }));
+        role.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roleActionPerformed(evt);
+            }
+        });
 
         pnr.setText("YYMMDDXXXX");
         pnr.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +84,18 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
+
         register.setText("Registrera konto");
+        register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Personnummer");
 
@@ -111,7 +129,7 @@ public class Register extends javax.swing.JFrame {
                                         .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel2)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(role, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(51, 51, 51)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel3)
@@ -136,7 +154,7 @@ public class Register extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(role, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,7 +170,7 @@ public class Register extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -183,6 +201,49 @@ public class Register extends javax.swing.JFrame {
        dispose();
        Login.login();
     }//GEN-LAST:event_backActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
+
+    private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
+        String roleInt = "0";
+        String pnrVar = pnr.getText();
+        String fnameVar = fname.getText();
+        String lnameVar = lname.getText();
+        String passwordVar = password.getText();
+        String emailVar = email.getText();
+        String phoneVar = phone.getText();
+        Object roleObject = role.getSelectedItem();
+        
+        String roleVar = roleObject.toString();
+       
+        if(roleVar.equals("Allmänhet")) {
+            roleInt = "1";
+        }
+        
+        if(roleVar.equals("Student")) {
+            roleInt = "2";
+        }
+        
+        if(roleVar.equals("Forskare")) {
+            roleInt = "3";
+        }
+         
+        if(roleVar.equals("Universitetsanställd")) {
+            roleInt = "4";
+        }
+          
+       
+        
+        UserController.registerUser(pnrVar, fnameVar, lnameVar, passwordVar, emailVar, phoneVar, roleInt);
+        dispose();
+        Login.login();
+    }//GEN-LAST:event_registerActionPerformed
+
+    private void roleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,7 +284,6 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JButton back;
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -237,5 +297,6 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JTextField phone;
     private javax.swing.JTextField pnr;
     private javax.swing.JButton register;
+    private javax.swing.JComboBox<String> role;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,17 +5,32 @@
  */
 package View;
 
+import Controller.UserController;
+import java.util.ArrayList;
+
 /**
  *
  * @author Admin
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
+    static Integer previousView = 1;     
+    public static int userCategory = 0; 
+    public static int userID = 0; 
+    
+     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        errorInput.setVisible(false);
+
+    }
+    
+     public static void previousViewPass(Integer previous) {
+       
+        previousView = previous;
+                
     }
 
     /**
@@ -27,6 +42,7 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
         password = new javax.swing.JTextField();
@@ -35,6 +51,9 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         register = new javax.swing.JButton();
         login = new javax.swing.JButton();
+        errorInput = new javax.swing.JLabel();
+
+        jLabel5.setText("jLabel5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +86,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        errorInput.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        errorInput.setForeground(new java.awt.Color(255, 0, 0));
+        errorInput.setText("Felaktigt lösenord eller personnummer, försök igen");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,8 +103,12 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(register)
                         .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(login)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(123, Short.MAX_VALUE)
+                .addContainerGap(59, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,7 +116,6 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(username)
                                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel2)
                                 .addGap(59, 59, 59)))
                         .addGap(119, 119, 119))
@@ -98,11 +124,10 @@ public class Login extends javax.swing.JFrame {
                         .addGap(19, 19, 19))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(161, 161, 161))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(164, 164, 164)
-                .addComponent(login)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(161, 161, 161))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(errorInput)
+                        .addGap(52, 52, 52))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,7 +144,9 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(login)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(errorInput)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(register)
@@ -130,8 +157,8 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
-        dispose();
         Register.register();
+        dispose();
     }//GEN-LAST:event_registerActionPerformed
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
@@ -139,7 +166,42 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-        // TODO add your handling code here:
+        String pnrVar = username.getText();
+        String passwordVar = password.getText();
+        
+        ArrayList<Integer> userInfo = new ArrayList<Integer>(); 
+
+        userInfo = UserController.loginUser(pnrVar, passwordVar, previousView);
+        
+        
+        
+        if(userInfo.get(0) == 0) {
+            errorInput.setVisible(true);
+        }
+        else {
+            switch(previousView) {
+                case 1: 
+                    userCategory = userInfo.get(0);
+                    userID = userInfo.get(1);
+                    dispose();
+                break;    
+                
+                case 2:
+                    UpdateCopy.copy();
+                    userCategory = userInfo.get(0);
+                    userID = userInfo.get(1);
+                    dispose();
+                break;
+                
+                case 3: 
+                    userCategory = userInfo.get(0);
+                    userID = userInfo.get(1);
+                    Home.home();
+                    dispose();
+                break;
+            }
+        }
+        System.out.print(userCategory);
     }//GEN-LAST:event_loginActionPerformed
 
     /**
@@ -178,10 +240,12 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errorInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JButton login;
     private javax.swing.JTextField password;
     private javax.swing.JButton register;

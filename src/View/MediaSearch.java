@@ -35,8 +35,6 @@ public class MediaSearch extends javax.swing.JFrame {
     public MediaSearch() {
         initComponents();
         
-        
-        
         mediaSearchTable.getModel().addTableModelListener(new TableModelListener() {
 
             @Override
@@ -60,6 +58,36 @@ public class MediaSearch extends javax.swing.JFrame {
             }
             
         });
+    }
+    
+    public static void auth() {
+        
+        switch(Login.userCategory) {
+            case 1:
+                
+            break;
+            
+            case 2:
+                
+            break;
+            
+            case 3:
+                
+            break;
+            
+            case 4:
+                
+            break;
+            
+            case 5:
+                
+            break;
+            
+            default:
+                
+            break;
+        }
+        
     }
     
     public void searchFill(String searchVar, String choiceVar) {
@@ -115,20 +143,20 @@ public class MediaSearch extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         mediaCategoryChoice = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
         choice = new javax.swing.JComboBox<>();
         searchButton = new javax.swing.JButton();
         update = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        removeMedia = new javax.swing.JButton();
         copy = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         home = new javax.swing.JButton();
-        copy1 = new javax.swing.JButton();
-        copy2 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         mediaSearchTable = new javax.swing.JTable();
+        login = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -158,8 +186,9 @@ public class MediaSearch extends javax.swing.JFrame {
 
         mediaCategoryChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
+        jLabel3.setText("jLabel3");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         jLabel1.setText("Välj sökalternativ i listan och skriv in sökord");
 
@@ -189,7 +218,12 @@ public class MediaSearch extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Ta bort");
+        removeMedia.setText("Ta bort");
+        removeMedia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeMediaActionPerformed(evt);
+            }
+        });
 
         copy.setText("Visa exemplar");
         copy.addActionListener(new java.awt.event.ActionListener() {
@@ -204,20 +238,6 @@ public class MediaSearch extends javax.swing.JFrame {
         home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 homeActionPerformed(evt);
-            }
-        });
-
-        copy1.setText("Nytt lånetillfälle");
-        copy1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copy1ActionPerformed(evt);
-            }
-        });
-
-        copy2.setText("Avsluta låntillfälle");
-        copy2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copy2ActionPerformed(evt);
             }
         });
 
@@ -291,6 +311,13 @@ public class MediaSearch extends javax.swing.JFrame {
             mediaSearchTable.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(mediaCategoryChoice));
         }
 
+        login.setText("Login");
+        login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -315,19 +342,18 @@ public class MediaSearch extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(login)
+                                .addGap(18, 18, 18)
                                 .addComponent(home)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton5))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(update)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3)
+                                .addComponent(removeMedia)
                                 .addGap(26, 26, 26)
                                 .addComponent(copy)
-                                .addGap(18, 18, 18)
-                                .addComponent(copy1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(copy2)))
+                                .addGap(250, 250, 250)))
                         .addGap(106, 106, 106))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
@@ -351,14 +377,13 @@ public class MediaSearch extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(update)
-                    .addComponent(jButton3)
-                    .addComponent(copy)
-                    .addComponent(copy1)
-                    .addComponent(copy2))
+                    .addComponent(removeMedia)
+                    .addComponent(copy))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5)
-                    .addComponent(home))
+                    .addComponent(home)
+                    .addComponent(login))
                 .addGap(36, 36, 36))
         );
 
@@ -371,73 +396,68 @@ public class MediaSearch extends javax.swing.JFrame {
         Iterator<Integer> iter = rowList.iterator();
 
         while(iter.hasNext()) {  
-          String mediaID = "";
+        
           DefaultTableModel model = (DefaultTableModel)mediaSearchTable.getModel();
           Object dataObject = model.getDataVector().elementAt(iter.next());
           String tableData = dataObject.toString();
           String strArray[] = tableData.split(",");
-          String strArray2[] = new String[8]; 
-          mediaID = strArray[0];
-          for(int i=0; i < strArray2.length; i++){
-                strArray2[i] ="'"+strArray[i+1]+"'";
-	  }
-          String mediaString = Arrays.toString(strArray2);
-          mediaString = mediaString.replaceAll("\\s","").replace("[", "").replace("]", "");
-          System.out.println(mediaString);
+          String mediaID = strArray[0];
           mediaID = mediaID.replace("[", "");
-          MediaSearchController.updateMedia(mediaString, mediaID);
           
-          //MediaSearchController.updateMedia(strArray2);
+          if(mediaID.equals("null")) {
+            MediaSearchController.updateMedia(strArray);
+          }
+          else {
+            MediaSearchController.updateMedia(strArray, mediaID);
+          }
+          
+        
         }
         
     }//GEN-LAST:event_updateActionPerformed
 
     private void copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyActionPerformed
-        dispose();
+        int row = mediaSearchTable.getSelectedRow();
+        String mediaID =  mediaSearchTable.getModel().getValueAt(row, 0).toString();
         UpdateCopy.copy();
+        UpdateCopy.mediaIDPass(mediaID);
+        dispose();
     }//GEN-LAST:event_copyActionPerformed
 
     private void homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeActionPerformed
-        dispose();
         Home.home();
+        dispose();
     }//GEN-LAST:event_homeActionPerformed
 
-
-    private void copy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copy1ActionPerformed
-
-        int auth = 1;
-
-        switch (auth) {//check for a match
-            //
-            case 1:
-            copy1.setVisible(false);
-            break;
-            case 2:
-            copy1.setVisible(true);
-            break;
-            default:
-            copy1.setVisible(false);
-            break;
-        }
-
-    }//GEN-LAST:event_copy1ActionPerformed
-
-    private void copy2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copy2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_copy2ActionPerformed
 
     private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
         
     }//GEN-LAST:event_searchFieldActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchMedia();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void removeMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMediaActionPerformed
+        int row = mediaSearchTable.getSelectedRow();
+        String mediaID =  mediaSearchTable.getModel().getValueAt(row, 0).toString();
+        MediaSearchController.deleteMedia(mediaID);
+        //searchMedia();
+    }//GEN-LAST:event_removeMediaActionPerformed
+
+    private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
+        Login.login();
+        Login.previousViewPass(2);
+        dispose();
+    }//GEN-LAST:event_loginActionPerformed
+
+    public void searchMedia() {
         emptyTable();
         String choiceVar = (String)choice.getSelectedItem();
         String searchVar = searchField.getText();
         searchFill(searchVar, choiceVar);
         wantToChange = true;
-    }//GEN-LAST:event_searchButtonActionPerformed
-
+    }
     
     /**
      * @param args the command line arguments
@@ -472,6 +492,7 @@ public class MediaSearch extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                auth();
                 new MediaSearch().setVisible(true);
             }
         });       
@@ -518,20 +539,20 @@ public class MediaSearch extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> choice;
     private javax.swing.JButton copy;
-    private javax.swing.JButton copy1;
-    private javax.swing.JButton copy2;
     private javax.swing.JButton home;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JButton login;
     private javax.swing.JComboBox<String> mediaCategoryChoice;
     public javax.swing.JTable mediaSearchTable;
+    private javax.swing.JButton removeMedia;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton update;
