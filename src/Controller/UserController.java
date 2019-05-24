@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import View.Login;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 
 /**
  *
@@ -49,6 +49,7 @@ public class UserController {
        
         
     }
+    
     
     public static ArrayList<Integer> loginUser(String pnr, String password, Integer LastPage) {
         
@@ -111,5 +112,79 @@ public class UserController {
        return userInfo;
         
     }
+    
+     public static void deleteUser() {
+        
+    
+       final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+       final String DELETE_USER = "DELETE FROM User WHERE userID = ?";
+
+       Connection connection = null;
+      
+       try {
+          connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
+          final PreparedStatement deleteUser = connection.prepareStatement(DELETE_USER);   
+          
+          deleteUser.setInt(1, Login.userID);
+
+          deleteUser.executeUpdate();
+       }
+       catch (SQLException sqlException) {
+           sqlException.printStackTrace();
+       }
+       
+        
+    }
+     
+     public static void updateUser(String pnrVar, String fnameVar, String lnameVar, String emailVar, String phoneVar, String passwordVar) {
+        String sqlString = "";
+         
+        if(!pnrVar.equals("")) {
+        String sqlPnr = ",pNr =" + "'" + pnrVar + "'";
+        sqlString = sqlString.concat(sqlPnr);
+        }
+        if(!fnameVar.equals("")) {
+        String sqlfname = ",fName =" + "'" + fnameVar + "'";
+        sqlString = sqlString.concat(sqlfname);
+        }
+        if(!lnameVar.equals("")) {
+        String sqllname = ",lName =" + "'" + lnameVar + "'";
+        sqlString = sqlString.concat(sqllname);
+       }
+       if(!emailVar.equals("")) {
+        String sqlemail = ",email =" + "'" + emailVar + "'";
+        sqlString = sqlString.concat(sqlemail);
+       }
+       if(!phoneVar.equals("")) {
+        String sqlphone = ",tel =" + "'" + phoneVar + "'";
+        sqlString = sqlString.concat(sqlphone);
+       }
+       if(!passwordVar.equals("")) {
+        String sqlpassword = ",password =" + "'" + passwordVar + "'";
+        sqlString = sqlString.concat(sqlpassword);
+       }
+       
+       sqlString = sqlString.substring(1);
+       
+       final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+       final String UPDATE_QUERY = "UPDATE User SET " + sqlString + " WHERE userID = ?";
+       
+       Connection connection = null;
+      
+       try {
+          connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
+          final PreparedStatement insertQuery = connection.prepareStatement(UPDATE_QUERY);   
+          insertQuery.setInt(1, Login.userID);
+
+          System.out.println(insertQuery); 
+          insertQuery.executeUpdate();
+       }
+       catch (SQLException sqlException) {
+           sqlException.printStackTrace();
+       }
+       
+   
+       
+   }
     
 }

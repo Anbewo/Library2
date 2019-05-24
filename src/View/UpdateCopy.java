@@ -11,6 +11,7 @@ import Controller.MediaSearchController;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +33,8 @@ public class UpdateCopy extends javax.swing.JFrame {
     public UpdateCopy() {
         
         initComponents();
+        errorLoaned.setVisible(false);
+        auth();
         updateTable(extMediaID);
         
          copyTable.getModel().addTableModelListener(new TableModelListener() {
@@ -51,6 +54,7 @@ public class UpdateCopy extends javax.swing.JFrame {
                    //Object dataObject = model.getDataVector().elementAt(mediaSearchTable.getSelectedRow());
                
                    rowList.add(row);
+                 
                  }
 
             }
@@ -59,34 +63,28 @@ public class UpdateCopy extends javax.swing.JFrame {
                 
     }
     
-     public static void auth() {
-        
-        switch(Login.userCategory) {
-            case 1:
-                
-            break;
-            
-            case 2:
-                
-            break;
-            
-            case 3:
-                
-            break;
-            
-            case 4:
-                
-            break;
-            
-            case 5:
-                
-            break;
-            
-            default:
-                
-            break;
+     public void auth() {
+    
+        if(Login.userCategory == 0) {
+         
         }
-        
+        if(Login.userCategory < 1) {
+         
+        }
+        if(Login.userCategory < 2) {
+          
+        }
+        if(Login.userCategory < 3) {
+            
+        }
+        if(Login.userCategory < 4) {
+         
+        }
+        if(Login.userCategory < 5) {
+          update.setVisible(false);  
+          remove.setVisible(false);
+        }
+    
     }
     
     public void loanRow() {
@@ -95,10 +93,17 @@ public class UpdateCopy extends javax.swing.JFrame {
         loanRow = copyTable.getSelectedRow();
         String loan = copyTable.getModel().getValueAt(loanRow, 0).toString();
         
-        
-        
-        
     }  
+    
+    public void removeCopyRow(int rowNumber) {
+        
+       for(int i = 0; i < 5; i++) {
+        copyTable.getModel().setValueAt(null, rowNumber, i);
+    }
+    
+    }
+       
+    
     
     public void emptyTable() {
         
@@ -106,7 +111,7 @@ public class UpdateCopy extends javax.swing.JFrame {
          
         final String ERASE = null;
         int x = 0;
-        int columns = 10;
+        int columns = 5;
                
         for (x=0; x < 50; x++) {
             for (int i=0; i < columns; i++) {
@@ -141,11 +146,11 @@ public class UpdateCopy extends javax.swing.JFrame {
         for (x=0; x < halfsize; x++) {
             
             String returnedStatus = LoanController.checkStatus(results.get(y).toString());
-            if(returnedStatus.equals("1")) {
-                status = "Tillgänglig";
+            if(returnedStatus.equals("0")) {
+                status = "Utlånad";
             }
             else {
-                status = "Utlånad";
+                status = "Tillgänglig";
             }
        
             copyTable.getModel().setValueAt(status, x, 4);
@@ -171,18 +176,30 @@ public class UpdateCopy extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel6 = new javax.swing.JLabel();
+        raderaExemplar = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         copyTable = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
         update = new javax.swing.JButton();
         remove = new javax.swing.JButton();
         back = new javax.swing.JButton();
         loan = new javax.swing.JButton();
-        copy2 = new javax.swing.JButton();
+        receipt = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         errorLoaned = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         jLabel6.setText("jLabel6");
+
+        javax.swing.GroupLayout raderaExemplarLayout = new javax.swing.GroupLayout(raderaExemplar.getContentPane());
+        raderaExemplar.getContentPane().setLayout(raderaExemplarLayout);
+        raderaExemplarLayout.setHorizontalGroup(
+            raderaExemplarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        raderaExemplarLayout.setVerticalGroup(
+            raderaExemplarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -244,7 +261,7 @@ public class UpdateCopy extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true, false
+                false, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -253,10 +270,7 @@ public class UpdateCopy extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(copyTable);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Exemplarshantering");
-
-        update.setText("Spara");
+        update.setText("Lägg till/Uppdatera");
         update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateActionPerformed(evt);
@@ -284,10 +298,10 @@ public class UpdateCopy extends javax.swing.JFrame {
             }
         });
 
-        copy2.setText("Checka ut / kvitto");
-        copy2.addActionListener(new java.awt.event.ActionListener() {
+        receipt.setText("Checka ut / kvitto");
+        receipt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copy2ActionPerformed(evt);
+                receiptActionPerformed(evt);
             }
         });
 
@@ -298,58 +312,61 @@ public class UpdateCopy extends javax.swing.JFrame {
         errorLoaned.setForeground(new java.awt.Color(255, 0, 0));
         errorLoaned.setText("Boken är utlånad välj ett annat exemplar eller vänta tills den blir tillgänglig");
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel7.setText("Exemplarshantering");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(92, 92, 92)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(back)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(update)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(remove)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(loan)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(receipt))))
+                .addGap(91, 91, 91))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(92, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(update)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(remove)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(loan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(copy2)
-                        .addGap(91, 91, 91))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(back)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(125, 125, 125)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(errorLoaned)))
-                        .addGap(101, 101, 101))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(253, 253, 253)
+                .addGap(246, 246, 246)
                 .addComponent(jLabel5)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(errorLoaned)
+                .addGap(118, 118, 118))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(221, 221, 221)
+                .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addGap(22, 22, 22)
-                .addComponent(back)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(errorLoaned, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(update)
                     .addComponent(remove)
                     .addComponent(loan)
-                    .addComponent(copy2))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(receipt))
+                .addGap(38, 38, 38)
+                .addComponent(back)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -369,7 +386,10 @@ public class UpdateCopy extends javax.swing.JFrame {
           barcodeID = barcodeID.replace("[", "");
           
           if(barcodeID.equals("null")) {
-            MediaCopyController.insertCopy(strArray);
+            MediaCopyController.insertCopy(strArray, extMediaID);
+            MediaCopyController.updateCopies(extMediaID);
+            emptyTable();
+            updateTable(extMediaID);
           }
           else {
             MediaCopyController.updateCopy(strArray, barcodeID);
@@ -381,6 +401,25 @@ public class UpdateCopy extends javax.swing.JFrame {
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
         
+        int loanRow = copyTable.getSelectedRow();
+        String barcodeID = copyTable.getModel().getValueAt(loanRow, 0).toString();
+       
+        
+        int n = JOptionPane.showConfirmDialog(
+        raderaExemplar,
+        "Vill du verkligen radera exemplaret och alla kopplade lån?",
+        "Radera exemplar",
+        JOptionPane.WARNING_MESSAGE,
+        JOptionPane.YES_NO_OPTION);
+        
+        if(n == 0) {
+            MediaCopyController.deleteCopy(barcodeID);
+            removeCopyRow(loanRow); 
+            MediaCopyController.updateCopies(extMediaID);
+        }
+        else {
+            
+        }
     }//GEN-LAST:event_removeActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -389,21 +428,35 @@ public class UpdateCopy extends javax.swing.JFrame {
     }//GEN-LAST:event_backActionPerformed
 
     private void loanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loanActionPerformed
+       
+        if(Login.userID == 0) {
+            Login.login();
+        }
+        else {
         int currentRow = copyTable.getSelectedRow();
         String barcodeID = copyTable.getModel().getValueAt(currentRow, 0).toString();        
         String available = copyTable.getModel().getValueAt(currentRow, 4).toString();
         System.out.println(available);
         if(available.equals("Tillgänglig")) {
             LoanController.addToBasket(barcodeID, Login.userID, extMediaID);    
+            updateTable(extMediaID);
         }
         else {
             System.out.print("Inte tillgänglig");
+            errorLoaned.setVisible(true);
+        }
         }
     }//GEN-LAST:event_loanActionPerformed
 
-    private void copy2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copy2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_copy2ActionPerformed
+    private void receiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiptActionPerformed
+        if(Login.userID == 0) {
+          Login.login();  
+        }
+        else {
+          Receipt.receipt();
+          dispose();   
+        }
+    }//GEN-LAST:event_receiptActionPerformed
 
     public static void copy() {
         /* Set the Nimbus look and feel */
@@ -432,7 +485,6 @@ public class UpdateCopy extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                auth();
                 new UpdateCopy().setVisible(true);
             }
         });
@@ -441,14 +493,15 @@ public class UpdateCopy extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
-    private javax.swing.JButton copy2;
     private javax.swing.JTable copyTable;
     private javax.swing.JLabel errorLoaned;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loan;
+    private javax.swing.JDialog raderaExemplar;
+    private javax.swing.JButton receipt;
     private javax.swing.JButton remove;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables

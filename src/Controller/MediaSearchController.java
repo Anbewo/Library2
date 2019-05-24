@@ -124,53 +124,27 @@ public class MediaSearchController {
        
    }
    
-   public static void deleteMedia(String mediaID) {
-       //
-       
+   public static void deleteCopy(String mediaID) {
+        
+    
        final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-       final String REMOVE_LOAN_QUERY = "DELETE FROM Loan WHERE barcodeID = ?";
-       final String REMOVE_COPY_QUERY = "DELETE FROM Mediacopy WHERE mediaID = ?";
-       final String REMOVE_QUERY = "DELETE FROM Media WHERE mediaID = ?";
+       final String DELETE_MEDIA = "DELETE FROM Media WHERE mediaID = ?";
 
        Connection connection = null;
-       
-       try {
-          connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
-          final PreparedStatement insertQuery = connection.prepareStatement(REMOVE_LOAN_QUERY);  
-          insertQuery.setString(1, mediaID);
-
-          System.out.println(insertQuery);
-          insertQuery.executeUpdate();
-       }
-       catch (SQLException sqlException) {
-           sqlException.printStackTrace();
-       }
       
        try {
           connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
-          final PreparedStatement insertQuery = connection.prepareStatement(REMOVE_COPY_QUERY);  
-          insertQuery.setString(1, mediaID);
+          final PreparedStatement deleteMedia = connection.prepareStatement(DELETE_MEDIA);   
+          
+          deleteMedia.setString(1, mediaID);
 
-          System.out.println(insertQuery);
-          insertQuery.executeUpdate();
+          deleteMedia.executeUpdate();
        }
        catch (SQLException sqlException) {
            sqlException.printStackTrace();
        }
        
-       try {
-          connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
-          final PreparedStatement insertQuery = connection.prepareStatement(REMOVE_QUERY);  
-          insertQuery.setString(1, mediaID);
-
-          System.out.println(insertQuery);
-          insertQuery.executeUpdate();
-       }
-       catch (SQLException sqlException) {
-           sqlException.printStackTrace();
-       }
-       
-       
-   }
+        
+    }
     
 }

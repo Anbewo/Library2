@@ -5,6 +5,11 @@
  */
 package View;
 
+import Controller.ReceiptController;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 /**
  *
  * @author Admin
@@ -16,7 +21,58 @@ public class Receipt extends javax.swing.JFrame {
      */
     public Receipt() {
         initComponents();
+        errorNoLoans.setVisible(false);
+        fillTable();
+        
+        
     }
+    
+    public void fillTable() {
+        
+        ArrayList<String> userInfo = new ArrayList<String>(); 
+        ArrayList<String> loanInfo = new ArrayList<String>();
+        
+        userInfo = ReceiptController.getUser();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+        LocalDateTime now = LocalDateTime.now();  
+        fName.setText(userInfo.get(0));
+        lName.setText(userInfo.get(1)); 
+        pNr.setText(userInfo.get(2));
+        date.setText(dtf.format(now));
+        String occasion = userInfo.get(3);
+        System.out.println(occasion);
+        int occasionInt = Integer.parseInt(occasion);
+        occasionInt = occasionInt + 1;
+  
+        loanInfo = ReceiptController.getCurrentOccasion(occasionInt);
+        
+        int nrOfLoans = loanInfo.size();
+        
+        //Kolla så det finns lån
+        if(nrOfLoans == 0) {
+            errorNoLoans.setVisible(true);
+        }
+        
+        else {
+        int size = loanInfo.size();
+        int columns = 3;
+        int halfsize = size/columns;
+       
+        int j = 0;
+        int x = j;
+                       
+        for (x=0; x < halfsize; x++) {
+            for (int i=0; i < columns; i++) {
+                receiptTable.getModel().setValueAt(loanInfo.get(j), x, i);
+                j++;
+            }
+        }
+        
+        ReceiptController.updateCopy(occasionInt);
+        }
+        
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,87 +84,133 @@ public class Receipt extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        receiptTable = new javax.swing.JTable();
+        fName = new javax.swing.JLabel();
+        lName = new javax.swing.JLabel();
+        pNr = new javax.swing.JLabel();
+        date = new javax.swing.JLabel();
+        back = new javax.swing.JButton();
+        errorNoLoans = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        receiptTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Streckkod", "Titel", "Återlämningsdatum"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(receiptTable);
 
-        jLabel1.setText("Firstname");
+        fName.setText("Firstname");
 
-        jLabel2.setText("Lastname");
+        lName.setText("Lastname");
 
-        jLabel3.setText("Personummer");
+        pNr.setText("Personummer");
 
-        jLabel4.setText("Lånedatum");
+        date.setText("Lånedatum");
 
-        jButton1.setText("Tillbaka");
+        back.setText("Tillbaka");
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
+
+        errorNoLoans.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        errorNoLoans.setForeground(new java.awt.Color(255, 0, 0));
+        errorNoLoans.setText("Du har inte lånat några titlar");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("Kvitto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(115, 115, 115)
+                .addComponent(errorNoLoans)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(date)
+                        .addGap(399, 399, 399))
+                    .addComponent(pNr)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(37, 37, 37)
-                                .addComponent(jLabel2)))
-                        .addContainerGap(22, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(208, 208, 208))
+                        .addComponent(fName)
+                        .addGap(37, 37, 37)
+                        .addComponent(lName)))
+                .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(210, 210, 210)
+                        .addComponent(back))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(211, 211, 211)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(fName)
+                    .addComponent(lName))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(pNr)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(date)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(jButton1)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addComponent(errorNoLoans)
+                .addGap(39, 39, 39)
+                .addComponent(back)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        Home.home();
+        dispose();
+    }//GEN-LAST:event_backActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void receipt() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -141,12 +243,14 @@ public class Receipt extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton back;
+    private javax.swing.JLabel date;
+    private javax.swing.JLabel errorNoLoans;
+    private javax.swing.JLabel fName;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lName;
+    private javax.swing.JLabel pNr;
+    private javax.swing.JTable receiptTable;
     // End of variables declaration//GEN-END:variables
 }

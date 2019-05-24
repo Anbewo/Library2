@@ -6,12 +6,14 @@
 package Controller;
 
 import View.UpdateCopy;
+import View.Login;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
@@ -61,7 +63,6 @@ public class LoanController {
           
            if(nrLoanDays > 0) {
             addLoan(nrLoanDays, barcodeID);
-            UpdateCopy.updateTable(mediaID);
             System.out.println("FRAMGÅNG");
            } 
       
@@ -94,14 +95,37 @@ public class LoanController {
     
     //Sätt in ny rad med userID, barcodeID, return_date, loan_occasion+1
     
+    
+    public static void returnLoan(String barcodeID) {
+        
+        final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        final String RETURN_LOAN = "UPDATE Loan SET returned = 1 WHERE barcodeID = ?";
+
+        Connection connection = null;
+      
+       try {
+          connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
+          final PreparedStatement returnLoan = connection.prepareStatement(RETURN_LOAN);   
+          returnLoan.setString(1, barcodeID);
+          
+          returnLoan.executeUpdate();
+       }
+       catch (SQLException sqlException) {
+           sqlException.printStackTrace();
+       }
+        
+        
+    }
+    
+    
     public static void addLoan(int nrLoanDays, String barcodeID) {
         
         
-        String returnDate = returnDateCalc(nrLoanDays);
+        Timestamp returnDate = returnDateCalc(nrLoanDays);
         int loanOccasion = getLoanOccasion();
         
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-        final String ADD_LOAN = "INSERT INTO Loan (userID, barcodeID, returnDate, loanOccasion) VALUES (?, ?, ?, ?)";
+        final String ADD_LOAN = "INSERT INTO Loan (userID, barcodeID, returnDate, returned, loanOccasion) VALUES (?, ?, ?, ?, ?)";
 
         Connection connection = null;
       
@@ -110,9 +134,9 @@ public class LoanController {
           final PreparedStatement addLoan = connection.prepareStatement(ADD_LOAN);   
           addLoan.setInt(1, Login.userID);
           addLoan.setString(2, barcodeID);
-          addLoan.setString(3, returnDate);
-          addLoan.setInt(4, loanOccasion+1); //Lägger till ett för ett nytt lånetillfälle
-          addLoan.executeQuery();
+          addLoan.setTimestamp(3 ,returnDate);
+          addLoan.setInt(4 ,0);
+          addLoan.setInt(5, loanOccasion+1); //Lägger till ett för ett nytt lånetillfälle
           
           addLoan.executeUpdate();
            System.out.println("ARTIKEL LÅNAD");
@@ -126,14 +150,14 @@ public class LoanController {
     }
     
      
-    public static String returnDateCalc(int loanDays) {
+    public static Timestamp returnDateCalc(int loanDays) {
         
          
       Calendar loanDate = Calendar.getInstance();
       Calendar tempReturnDate = Calendar.getInstance();
       tempReturnDate.add(Calendar.DAY_OF_MONTH, loanDays);
-      String returnDate = tempReturnDate.toString();
-       
+      Timestamp returnDate = new Timestamp(tempReturnDate.getTimeInMillis()); 
+      
       return returnDate;
       
     }
@@ -143,7 +167,7 @@ public class LoanController {
         int loanOcc = 0;
         
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-        final String GET_LOAN_OCC = "SELECT noOfLoanOccasion FROM User WHERE userID = ?";
+        final String GET_LOAN_OCC = "SELECT noLoanOccasions FROM User WHERE userID = ?";
 
         Connection connection = null;
       
@@ -155,8 +179,9 @@ public class LoanController {
           
           
           while(resultSet.next()) {
-              String tempNr = resultSet.getObject(0).toString();
+              String tempNr = resultSet.getObject(1).toString();
               loanOcc = Integer.parseInt(tempNr);
+              System.out.println(loanOcc);
           }
           
           
@@ -188,7 +213,7 @@ public class LoanController {
           ResultSet resultSet = countLoans.executeQuery();
           
            while(resultSet.next()) {
-                String tempNr = resultSet.getObject(0).toString();
+                String tempNr = resultSet.getObject(1).toString();
                 count = Integer.parseInt(tempNr);
            }
         
@@ -252,7 +277,7 @@ public class LoanController {
           ResultSet resultSet = getMediaCat.executeQuery();
           
            while(resultSet.next()) {
-                mediaCat = resultSet.getObject(0).toString();
+                mediaCat = resultSet.getObject(1).toString();
            }
  
        }
