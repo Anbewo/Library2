@@ -5,17 +5,165 @@
  */
 package View;
 
+import Controller.LoanController;
+import Controller.MediaCopyController;
+import Controller.MediaSearchController;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class UpdateCopy extends javax.swing.JFrame {
 
+    static String extMediaID; 
+    boolean wantToChange = true;
+    LinkedHashSet<Integer> rowList = new LinkedHashSet<Integer>(); 
+
+    
     /**
      * Creates new form UpdateCopy
      */
     public UpdateCopy() {
+        
         initComponents();
+        errorLoaned.setVisible(false);
+        auth();
+        updateTable(extMediaID);
+        
+         copyTable.getModel().addTableModelListener(new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent changeMedia) {
+               
+                
+                 if (wantToChange == true)
+                 {
+                   int row = changeMedia.getFirstRow();
+                   //int column = changeMedia.getColumn();
+                   //DefaultTableModel model = (DefaultTableModel)changeMedia.getSource();
+                   //String columnName = model.getColumnName(column);
+                   //Object data =  mediaSearchTable.getModel().getValueAt(row, 0);
+                   //DefaultTableModel model = (DefaultTableModel)mediaSearchTable.getModel();
+                   //Object dataObject = model.getDataVector().elementAt(mediaSearchTable.getSelectedRow());
+               
+                   rowList.add(row);
+                 
+                 }
+
+            }
+            
+        });
+                
+    }
+    
+     public void auth() {
+    
+        if(Login.userCategory == 0) {
+         
+        }
+        if(Login.userCategory < 1) {
+         
+        }
+        if(Login.userCategory < 2) {
+          
+        }
+        if(Login.userCategory < 3) {
+            
+        }
+        if(Login.userCategory < 4) {
+         
+        }
+        if(Login.userCategory < 5) {
+          update.setVisible(false);  
+          remove.setVisible(false);
+        }
+    
+    }
+    
+    public void loanRow() {
+        
+        int loanRow = 0;
+        loanRow = copyTable.getSelectedRow();
+        String loan = copyTable.getModel().getValueAt(loanRow, 0).toString();
+        
+    }  
+    
+    public void removeCopyRow(int rowNumber) {
+        
+       for(int i = 0; i < 5; i++) {
+        copyTable.getModel().setValueAt(null, rowNumber, i);
+    }
+    
+    }
+       
+    
+    
+    public void emptyTable() {
+        
+        wantToChange = false;
+         
+        final String ERASE = null;
+        int x = 0;
+        int columns = 5;
+               
+        for (x=0; x < 50; x++) {
+            for (int i=0; i < columns; i++) {
+                copyTable.getModel().setValueAt(ERASE, x, i);
+            }   
+        }
+        
+        rowList.clear();
+        
+    }                   
+    
+    public static void mediaIDPass(String mediaTest) {
+       
+        extMediaID = mediaTest;
+                
+    }
+    
+    public void updateTable(String mediaID) {
+        
+        ArrayList results = MediaCopyController.listCopies(mediaID);
+   
+        String status;
+        
+        int size = results.size();
+        int columns = 4;
+        int halfsize = size/columns;
+       
+        int j = 0;
+        int x = j;
+        int y = 0;
+               
+        for (x=0; x < halfsize; x++) {
+            
+            String returnedStatus = LoanController.checkStatus(results.get(y).toString());
+            if(returnedStatus.equals("0")) {
+                status = "Utlånad";
+            }
+            else {
+                status = "Tillgänglig";
+            }
+       
+            copyTable.getModel().setValueAt(status, x, 4);
+            y = y + 4;
+            
+            for (int i=0; i < columns; i++) {
+                copyTable.getModel().setValueAt(results.get(j), x, i);
+                j++;
+            }
+        }
+        
+    
+                
     }
 
     /**
@@ -28,65 +176,111 @@ public class UpdateCopy extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel6 = new javax.swing.JLabel();
+        raderaExemplar = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         copyTable = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        update = new javax.swing.JButton();
+        remove = new javax.swing.JButton();
         back = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        copy2 = new javax.swing.JButton();
+        loan = new javax.swing.JButton();
+        receipt = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        errorLoaned = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         jLabel6.setText("jLabel6");
+
+        javax.swing.GroupLayout raderaExemplarLayout = new javax.swing.GroupLayout(raderaExemplar.getContentPane());
+        raderaExemplar.getContentPane().setLayout(raderaExemplarLayout);
+        raderaExemplarLayout.setHorizontalGroup(
+            raderaExemplarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        raderaExemplarLayout.setVerticalGroup(
+            raderaExemplarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         copyTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Streckkod", "Media ID", "Titel", "Placering", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(copyTable);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Exemplarshantering");
-
-        jLabel2.setText("Titel");
-
-        jLabel3.setText("Streckod");
-
-        jLabel4.setText("Hyllplats");
-
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
-
-        jTextField3.setText("jTextField3");
-
-        jButton1.setText("Spara");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        update.setText("Lägg till/Uppdatera");
+        update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                updateActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Ta bort");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        remove.setText("Ta bort");
+        remove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                removeActionPerformed(evt);
             }
         });
 
@@ -97,120 +291,173 @@ public class UpdateCopy extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Lägg i lånekorgen");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        loan.setText("Lägg i lånekorgen");
+        loan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                loanActionPerformed(evt);
             }
         });
 
-        copy2.setText("Checka ut / kvitto");
-        copy2.addActionListener(new java.awt.event.ActionListener() {
+        receipt.setText("Checka ut / kvitto");
+        receipt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copy2ActionPerformed(evt);
+                receiptActionPerformed(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel5.setText("Låna exemplar");
 
+        errorLoaned.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        errorLoaned.setForeground(new java.awt.Color(255, 0, 0));
+        errorLoaned.setText("Boken är utlånad välj ett annat exemplar eller vänta tills den blir tillgänglig");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel7.setText("Exemplarshantering");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(92, 92, 92)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(back)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(update)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(remove)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(loan)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(receipt))))
+                .addGap(91, 91, 91))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(215, 215, 215))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(back)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(125, 125, 125)
-                                .addComponent(jLabel1)))
-                        .addGap(101, 101, 101))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(copy2)
-                        .addGap(91, 91, 91))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(253, 253, 253)
+                .addGap(246, 246, 246)
                 .addComponent(jLabel5)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(errorLoaned)
+                .addGap(118, 118, 118))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(221, 221, 221)
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addGap(22, 22, 22)
-                .addComponent(back)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addGap(4, 4, 4)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(errorLoaned, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(copy2))
+                    .addComponent(update)
+                    .addComponent(remove)
+                    .addComponent(loan)
+                    .addComponent(receipt))
+                .addGap(38, 38, 38)
+                .addComponent(back)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+         //ArrayList<String> mediaData = new ArrayList<String>(); 
+        Iterator<Integer> iter = rowList.iterator();
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        while(iter.hasNext()) {  
+        
+          DefaultTableModel model = (DefaultTableModel)copyTable.getModel();
+          Object dataObject = model.getDataVector().elementAt(iter.next());
+          String tableData = dataObject.toString();
+          String strArray[] = tableData.split(",");
+          String barcodeID = strArray[0];
+          barcodeID = barcodeID.replace("[", "");
+          
+          if(barcodeID.equals("null")) {
+            MediaCopyController.insertCopy(strArray, extMediaID);
+            MediaCopyController.updateCopies(extMediaID);
+            emptyTable();
+            updateTable(extMediaID);
+          }
+          else {
+            MediaCopyController.updateCopy(strArray, barcodeID);
+          }
+          
+        
+        }
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
+        
+        int loanRow = copyTable.getSelectedRow();
+        String barcodeID = copyTable.getModel().getValueAt(loanRow, 0).toString();
+       
+        
+        int n = JOptionPane.showConfirmDialog(
+        raderaExemplar,
+        "Vill du verkligen radera exemplaret och alla kopplade lån?",
+        "Radera exemplar",
+        JOptionPane.WARNING_MESSAGE,
+        JOptionPane.YES_NO_OPTION);
+        
+        if(n == 0) {
+            MediaCopyController.deleteCopy(barcodeID);
+            removeCopyRow(loanRow); 
+            MediaCopyController.updateCopies(extMediaID);
+        }
+        else {
+            
+        }
+    }//GEN-LAST:event_removeActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         dispose();
         MediaSearch.search();
     }//GEN-LAST:event_backActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void loanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loanActionPerformed
+       
+        if(Login.userID == 0) {
+            Login.login();
+        }
+        else {
+        int currentRow = copyTable.getSelectedRow();
+        String barcodeID = copyTable.getModel().getValueAt(currentRow, 0).toString();        
+        String available = copyTable.getModel().getValueAt(currentRow, 4).toString();
+        System.out.println(available);
+        if(available.equals("Tillgänglig")) {
+            LoanController.addToBasket(barcodeID, Login.userID, extMediaID);    
+            updateTable(extMediaID);
+        }
+        else {
+            System.out.print("Inte tillgänglig");
+            errorLoaned.setVisible(true);
+        }
+        }
+    }//GEN-LAST:event_loanActionPerformed
 
-    private void copy2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copy2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_copy2ActionPerformed
+    private void receiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiptActionPerformed
+        if(Login.userID == 0) {
+          Login.login();  
+        }
+        else {
+          Receipt.receipt();
+          dispose();   
+        }
+    }//GEN-LAST:event_receiptActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void copy() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -234,31 +481,28 @@ public class UpdateCopy extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UpdateCopy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+       
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UpdateCopy().setVisible(true);
             }
         });
+                       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
-    private javax.swing.JButton copy2;
     private javax.swing.JTable copyTable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel errorLoaned;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton loan;
+    private javax.swing.JDialog raderaExemplar;
+    private javax.swing.JButton receipt;
+    private javax.swing.JButton remove;
+    private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
 }
