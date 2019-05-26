@@ -7,9 +7,7 @@ package Controller;
 
 import java.sql.*;
 import java.util.ArrayList;
-import Model.Media;
 import View.MediaSearch;
-import java.util.List;
 
 /**
  *

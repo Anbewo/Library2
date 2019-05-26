@@ -471,7 +471,7 @@ public class MediaSearch extends javax.swing.JFrame {
     
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         Login.login();
-        Login.previousViewPass(2);
+        Login.previousViewPass(3);
         dispose();
     }//GEN-LAST:event_loginActionPerformed
 
