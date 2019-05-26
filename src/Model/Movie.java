@@ -7,14 +7,31 @@ package Model;
 
 /**
  *
- * @author annic
+ * @author Admin
  */
-public class Movie extends Media {
+public class Movie extends LoanTip {
+
+    private String ageLimit;
     
-    String genre;
-    String director;
-    int ageLimit;
-    String productionCountry;
-    String actor;
+    public Movie(String title, String authorDirector, String placement, String ageLimit) {
+        super(title, authorDirector, placement);
+        this.ageLimit = ageLimit;
+    }
+    
+    public String getExtra() {
+        return ageLimit;
+    }
+    
+    public void setExtra(String ageLimit) {
+        this.ageLimit = ageLimit;
+    }
+    
+    public String returnTip() {
+        
+        String message = "Vårt film tips är " + this.getTitle() + System.lineSeparator() + "författaren heter: " + this.getAuthorDirector() + " den finns på hylla " +
+        System.lineSeparator() + this.getPlacement() + " och har ISBN " + this.getExtra();
+  
+        return message;
+    }
     
 }

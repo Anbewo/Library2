@@ -136,6 +136,29 @@ public class UserController {
         
     }
      
+    public static void deleteUser(String userID) {
+        
+    
+       final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+       final String DELETE_USER = "DELETE FROM User WHERE userID = ?";
+
+       Connection connection = null;
+      
+       try {
+          connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
+          final PreparedStatement deleteUser = connection.prepareStatement(DELETE_USER);   
+          
+          deleteUser.setString(1, userID);
+
+          deleteUser.executeUpdate();
+       }
+       catch (SQLException sqlException) {
+           sqlException.printStackTrace();
+       }
+       
+        
+    }
+     
      public static void updateUser(String pnrVar, String fnameVar, String lnameVar, String emailVar, String phoneVar, String passwordVar) {
         String sqlString = "";
          
@@ -175,6 +198,33 @@ public class UserController {
           connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
           final PreparedStatement insertQuery = connection.prepareStatement(UPDATE_QUERY);   
           insertQuery.setInt(1, Login.userID);
+
+          System.out.println(insertQuery); 
+          insertQuery.executeUpdate();
+       }
+       catch (SQLException sqlException) {
+           sqlException.printStackTrace();
+       }
+       
+   
+       
+   }
+     
+   public static void updateUser(String userID, String fnameVar, String lnameVar, String pnrVar, String userCat) {
+       
+       final String DATABASE_URL = "jdbc:mysql://localhost:3306/BiblioteksSystem?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+       final String UPDATE_QUERY = "UPDATE User SET fName = ?, lName = ?, pNr = ?, userCat = ? WHERE userID = ?";
+       
+       Connection connection = null;
+      
+       try {
+          connection = DriverManager.getConnection(DATABASE_URL, "root", "1234");
+          final PreparedStatement insertQuery = connection.prepareStatement(UPDATE_QUERY);   
+          insertQuery.setString(1, fnameVar);
+          insertQuery.setString(2, lnameVar);
+          insertQuery.setString(3, pnrVar);
+          insertQuery.setString(4, userCat);
+          insertQuery.setString(5, userID);
 
           System.out.println(insertQuery); 
           insertQuery.executeUpdate();
